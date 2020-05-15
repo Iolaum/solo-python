@@ -2,7 +2,22 @@ import socket
 
 import fido2._pyu2f
 import fido2._pyu2f.base
+import fido2._pyu2f.linux
 
+oldnewParseUevent = fido2._pyu2f.linux.ParseUevent
+
+def newParseUevent(uevent, desc):
+    oldnewParseUevent(uevent, desc)
+    lines = uevent.split(b"\n")
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+        k, v = line.split(b"=")
+        if k == b"HID_UNIQ":
+            desc.serial_number = v.decode("utf8")
+
+fido2._pyu2f.linux.ParseUevent = newParseUevent
 
 def force_udp_backend():
     fido2._pyu2f.InternalPlatformSwitch = _UDP_InternalPlatformSwitch

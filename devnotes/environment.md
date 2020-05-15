@@ -50,3 +50,47 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 ```
 
+### python-fido2 library:
+
+```
+$ tail -n +1 /sys/class/hidraw/hidraw*/device/uevent
+==> /sys/class/hidraw/hidraw0/device/uevent <==
+DRIVER=hid-generic
+HID_ID=0003:00001BCF:00000005
+HID_NAME=USB Optical Mouse
+HID_PHYS=usb-0000:00:14.0-1/input0
+HID_UNIQ=
+MODALIAS=hid:b0003g0001v00001BCFp00000005
+
+==> /sys/class/hidraw/hidraw1/device/uevent <==
+DRIVER=hid-generic
+HID_ID=0003:00000483:0000A2CA
+HID_NAME=SoloKeys Solo 4.0.0
+HID_PHYS=usb-0000:00:14.0-6/input0
+HID_UNIQ=207636905548
+MODALIAS=hid:b0003g0001v00000483p0000A2CA
+
+==> /sys/class/hidraw/hidraw2/device/uevent <==
+DRIVER=hid-generic
+HID_ID=0003:00001050:00000407
+HID_NAME=Yubico YubiKey OTP+FIDO+CCID
+HID_PHYS=usb-0000:00:14.0-11/input0
+HID_UNIQ=
+MODALIAS=hid:b0003g0001v00001050p00000407
+
+==> /sys/class/hidraw/hidraw3/device/uevent <==
+DRIVER=hid-generic
+HID_ID=0003:00001050:00000407
+HID_NAME=Yubico YubiKey OTP+FIDO+CCID
+HID_PHYS=usb-0000:00:14.0-11/input1
+HID_UNIQ=
+MODALIAS=hid:b0003g0001v00001050p00000407
+
+```
+
+
+After patching fido2 we get:
+```
+>>> print(solos.dev.descriptor)
+{'path': '/dev/hidraw1', 'usage_page': 61904, 'usage': 1, 'vendor_id': 1155, 'product_id': 41674, 'product_string': 'SoloKeys Solo 4.0.0', 'serial_number': '207636905548'}
+```
